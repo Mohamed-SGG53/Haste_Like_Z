@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://bmainScene01"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/CrumblingVoid.tscn" id="3_void"]
+[ext_resource type="PackedScene" path="res://scenes/HUD.tscn" id="4_hud"]
+
+[sub_resource type="ProceduralSkyMaterial" id="SkyMat"]
+sun_color = Color(1, 0.95, 0.8, 1)
+ground_color = Color(0.2, 0.25, 0.3, 1)
+
+[sub_resource type="Sky" id="Sky"]
+sky_material = SubResource("SkyMat")
+
+[sub_resource type="Environment" id="Env"]
+background_mode = 2
+sky = SubResource("Sky")
+ambient_light_color = Color(0.5, 0.55, 0.65, 1)
+ambient_light_energy = 0.4
+fog_enabled = true
+fog_light_color = Color(0.45, 0.55, 0.7, 1)
+fog_density = 0.005
+tonemap_mode = 2
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_main")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7, 0.5, 0.5, -0.5, 0.866, -0.0, -0.5, -0.0, 0.866, 0, 30, 0)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+
+[node name="CrumblingVoid" parent="." instance=ExtResource("3_void")]
+
+[node name="HUD" parent="." instance=ExtResource("4_hud")]

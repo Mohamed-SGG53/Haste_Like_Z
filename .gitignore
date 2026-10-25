@@ -1,0 +1,8 @@
+# Godot 4+ ignores this folder by default
+/import/
+/.godot/
+*.translation
+/editor/
+/ExportPresets.cfg
+*.csproj
+*.sln

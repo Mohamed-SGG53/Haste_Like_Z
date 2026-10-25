@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bchunk001abcd"]
+
+[ext_resource type="Script" path="res://scripts/TerrainChunk.gd" id="1_chunk"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ColliderShape"]
+
+[node name="TerrainChunk" type="Node3D"]
+script = ExtResource("1_chunk")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+cast_shadow = 1
+# material_override is set programmatically by the script (terrain shader).
+
+[node name="Body" type="StaticBody3D" parent="Mesh"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="ColliderShape" type="CollisionShape3D" parent="Mesh/Body"]
+shape = SubResource("ColliderShape")
+
+[node name="ObstaclesRoot" type="Node3D" parent="."]

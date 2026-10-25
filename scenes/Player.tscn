@@ -1,0 +1,141 @@
+[gd_scene load_steps=16 format=3 uid="uid://bp8j2k3qv0h4p"]
+
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/CameraRig.gd" id="2_camrig"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+radius = 0.32
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_body"]
+albedo_color = Color(0.165, 0.616, 0.624, 1)
+roughness = 0.45
+
+[sub_resource type="SphereMesh" id="SphereMesh_head"]
+radius = 0.22
+
+[sub_resource type="StandardMaterial3D" id="Mat_head"]
+albedo_color = Color(0.878, 0.675, 0.51, 1)
+roughness = 0.6
+
+[sub_resource type="SphereMesh" id="SphereMesh_hair"]
+radius = 0.24
+
+[sub_resource type="StandardMaterial3D" id="Mat_hair"]
+albedo_color = Color(0.149, 0.275, 0.329, 1)
+roughness = 0.7
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_arm"]
+radius = 0.07
+height = 0.45
+
+[sub_resource type="StandardMaterial3D" id="Mat_arm"]
+albedo_color = Color(0.165, 0.616, 0.624, 1)
+roughness = 0.45
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_leg"]
+radius = 0.09
+height = 0.45
+
+[sub_resource type="StandardMaterial3D" id="Mat_leg"]
+albedo_color = Color(0.118, 0.118, 0.137, 1)
+roughness = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_scarf"]
+size = Vector3(0.5, 0.1, 0.7)
+
+[sub_resource type="StandardMaterial3D" id="Mat_scarf"]
+albedo_color = Color(0.906, 0.435, 0.29, 1)
+roughness = 0.85
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_col"]
+radius = 0.4
+height = 1.6
+
+[sub_resource type="StandardMaterial3D" id="Mat_shadow"]
+albedo_color = Color(0, 0, 0, 0.35)
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_shadow"]
+size = Vector2(1.6, 1.6)
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_col")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("CapsuleMesh_body")
+material_override = SubResource("Mat_body")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+
+[node name="Head" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("SphereMesh_head")
+material_override = SubResource("Mat_head")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.55, 0)
+
+[node name="Hair" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("SphereMesh_hair")
+material_override = SubResource("Mat_hair")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.62, -0.04)
+
+[node name="LeftArm" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("CapsuleMesh_arm")
+material_override = SubResource("Mat_arm")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.38, 1.0, 0)
+
+[node name="RightArm" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("CapsuleMesh_arm")
+material_override = SubResource("Mat_arm")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.38, 1.0, 0)
+
+[node name="LeftLeg" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("CapsuleMesh_leg")
+material_override = SubResource("Mat_leg")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.25, 0)
+
+[node name="RightLeg" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("CapsuleMesh_leg")
+material_override = SubResource("Mat_leg")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.25, 0)
+
+[node name="Scarf" type="MeshInstance3D" parent="Model"]
+mesh = SubResource("BoxMesh_scarf")
+material_override = SubResource("Mat_scarf")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -0.35)
+
+[node name="Shadow" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_shadow")
+material_override = SubResource("Mat_shadow")
+cast_shadow = 0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0)
+
+[node name="GroundRay" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+target_position = Vector3(0, -1.2, 0)
+collision_mask = 1
+
+[node name="SlopeAheadRay" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+target_position = Vector3(0, -1.5, 1.5)
+collision_mask = 1
+
+[node name="CameraRig" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+script = ExtResource("2_camrig")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -7.0)
+fov = 70.0
+near = 0.1
+far = 1000.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
